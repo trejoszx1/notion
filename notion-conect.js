@@ -20,9 +20,33 @@ const listDatabases = async () => {
     
 };
 
-listDatabases()
+//listDatabases()
+
+const queryDatabases =  async () => {
+    const response = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+          or: [
+            {
+              property: 'in stock',
+              checkbox: {
+                equals: true,
+              },
+            },
+            {
+              property: 'Const of next trip',
+              number: {
+                is_not_empty:"true",
+              },
+            },
+          ],
+        },
+    });
+    console.log(response);
+}
 
 
+queryDatabases()
 
 
 
