@@ -21,35 +21,36 @@ const listDatabases = async () => {
     
 };
 
-//listDatabases()
+listDatabases()
+
+
+
+
+
 
 const queryDatabases =  async () => {
-    const response = await notion.databases.query({
-        database_id: databaseId,
-        filter: {
-          or: [
-            {
-              property: 'in stock',
-              checkbox: {
-                equals: true,
-              },
-            },
-            {
-              property: 'Const of next trip',
-              number: {
-                is_not_empty:"true",
-              },
-            },
-          ],
-        },
-    });
-    console.log(response);
-}
+    const payload = {
+      path: `databases/${databaseId}/query`,
+      method:'POST'
+    }
+    const { results } = await notion.request(payload)
+    const data = results.map((page)=> {
+      console.log(page.properties.Titulos.rich_text[0].text.content)
 
+      return{
+        id: page.id,
+        title: page.properties.Name.title[0].text.content,
+        select: page.properties.Selecioness.select,
+        checkbox: page.properties.stock.checkbox,
+        number: page.properties.Number.number
 
-queryDatabases()
+      }
+    })
 
-
-
-  
-
+    return data
+  }
+  (async()=>{
+    const nData = await queryDatabases()
+    console.log(nData)
+  })()
+//https://www.youtube.com/watch?v=9JdP-S3crt8&t=816s
