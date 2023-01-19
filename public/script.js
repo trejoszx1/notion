@@ -8,7 +8,7 @@ function handleUpVote(button){
     fetch("/up-vote-suggestion",{
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({ suggestionId: suggestionCard.dataset.suggestionId }),
     }).then(res => res.json())

@@ -27,7 +27,7 @@ function notionPropertiesById(properties) {
   }, {});
 }
 
-function createSuggestion({ title, isProject, number, description, tags }) {
+function createSuggestion({ title, isProject, description, tags }) {
   notion.pages.create({
     parent: {
       database_id: process.env.NOTION_DATABASE_ID,
@@ -101,7 +101,7 @@ function fromNotionObject(notionPages) {
   return {
     id: notionPages.id,
     title: propertiesById[process.env.NOTION_TITLE_ID].title[0].plain_text,
-    number: propertiesById[process.env.NOTION_NUMBER_ID].number,
+    votes : propertiesById[process.env.NOTION_NUMBER_ID].number,
     tags: propertiesById[process.env.NOTION_TAGS_ID].multi_select.map(
       (option) => {
         return { id: option.id, name: option.name };

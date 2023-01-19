@@ -1,6 +1,11 @@
 require('dotenv').config();
 const express = require("express");
-const { getTags, createSuggestion, getSuggestions, upVoteSuggestion} = require("./notion")
+const { 
+    getTags, 
+    createSuggestion, 
+    getSuggestions, 
+    upVoteSuggestion
+} = require("./notion")
 
 
 
@@ -27,7 +32,7 @@ setInterval(async()=>{
 
 app.get('/',async (req,res) =>{
     const suggestions = await getSuggestions()
-    res.render('index', {tags, suggestions})
+    res.render("index", {tags, suggestions})
 })
 app.post('/create-user', async (req, res) =>{
     const{ title,  description, isProject, tagIds /*number*/ = [] } = req.body
@@ -45,9 +50,11 @@ app.post('/create-user', async (req, res) =>{
     res.redirect("/")
 
 })
-app.post('/up-vote-suggestion', async (req, res) => {
+app.post("/up-vote-suggestion", async (req, res) => {
+    console.log("Hey", req.body.suggestionId)
     const votes = await upVoteSuggestion(req.body.suggestionId)
     res.json({ votes })
+    
 })
 
 app.listen(process.env.PORT)
